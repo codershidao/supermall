@@ -1,0 +1,76 @@
+<!-- Page annotation -->
+<template>
+  <div class="goods-item" @click='goodsItemClick'>
+    <img :src="goodsItem.show.img" alt="" @load="imageLoad">
+    <div class="goods-info">
+      <p>{{goodsItem.title}}</p>
+      <span class="price">￥{{goodsItem.price}}</span>
+      <span class="collect">{{goodsItem.cfav}}</span>
+    </div>
+  </div>
+</template>
+
+<script>
+export default {
+  name:"goodsListItem",
+  props: {
+    goodsItem:{
+      type:Object,
+      default(){
+      }
+    }
+  },
+  methods: {
+    imageLoad(){
+      this.$bus.$emit("imageLoad")//将监听的信息给home
+    },
+    goodsItemClick(){
+      this.$router.push("/detail/"+this.goodsItem.iid)
+    },
+  }
+}
+</script>
+
+<style  scoped>
+.goods-item{
+  position: relative;
+  padding-bottom: 40px;
+  width: 48%;
+}
+.goods-item img{
+  width: 100%;
+  height: 100%;
+  border-radius: 5px;
+}
+.goods-info{
+  font-size: 12px;
+  position: absolute;
+  bottom: 5px;
+  left: 0;
+  right: 0; 
+  text-align: center;
+  /* overflow: hidden; */
+}
+.goods-info p{
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  margin-bottom: 3px;
+}
+.price{
+    color: var(--color-hight-text);
+    margin-right: 20px;
+}
+.collect {
+    position: relative;
+  }
+.collect::before {
+    content: '';
+    position: absolute;
+    left: -15px;
+    top: -1px;
+    width: 14px;
+    height: 14px;
+    background: url("~assets/img/home/collect.svg") 0 0/14px 14px;
+  }
+</style>
