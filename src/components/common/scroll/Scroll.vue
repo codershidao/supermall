@@ -1,6 +1,6 @@
 <!-- Page annotation -->
 <template>
-  <div  class="wrapper" ref="wrapper">
+  <div ref="wrapper">
     <div  class="content">
       <slot></slot>
     </div>
@@ -12,9 +12,9 @@ import BSscroll from 'better-scroll'
 export default {
   name:"Scroll",
   props: {
-    probetype:{
-      type:Number,
-      default:0
+    probeType: {
+      type: Number,
+      default: 1
     },
     pullUpLoad:{
       type:Boolean,
@@ -23,13 +23,13 @@ export default {
   },
   data(){
     return {
-      scroll:null
+      scroll:{}
     }
   },
   mounted(){
     this.scroll = new BSscroll(this.$refs.wrapper,{//第一个参数表示挂载在哪个作用域上，在这个作用域下只能有一个总标签！，但在这个标签下可以嵌套很多标签
       click:true,//可以监听div中的点击事件
-      probeType: this.probeType,
+      probeType:this.probeType,
       pullUpLoad:this.pullUpLoad,
     })
 
@@ -49,7 +49,6 @@ export default {
   methods: {
     refresh(){
      this.scroll && this.scroll.refresh();//重新计算高度
-     //console.log('------');
     },
     scrollTo(x,y,time=300){
      this.scroll && this.scroll.scrollTo(x,y,time);//封装scrollto方法

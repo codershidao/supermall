@@ -49,7 +49,7 @@
         this.handleDom();
         // 2.开启定时器
         this.startTimer();
-      }, 100)
+      }, 3000)
     },
     methods: {
 		  /**
@@ -213,3 +213,4 @@
     background-color: rgba(212,62,46,1.0);
   }
 </style>
+

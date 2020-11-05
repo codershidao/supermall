@@ -1,7 +1,7 @@
 <!-- Page annotation -->
 <template>
   <div class="goods-item" @click='goodsItemClick'>
-    <img :src="goodsItem.show.img" alt="" @load="imageLoad">
+    <img :src="getImage" alt="" @load="imageLoad">
     <div class="goods-info">
       <p>{{goodsItem.title}}</p>
       <span class="price">￥{{goodsItem.price}}</span>
@@ -20,9 +20,19 @@ export default {
       }
     }
   },
+  computed:{
+    getImage(){
+      return this.goodsItem.image || this.goodsItem.show.img;
+    }
+  },
   methods: {
     imageLoad(){
-      this.$bus.$emit("imageLoad")//将监听的信息给home
+      if(this.$route.path.indexOf('home')){
+        this.$bus.$emit("homeImageLoad")//将监听的信息给home
+      }else if(this.$route.path.indexOf('detail')){
+        this.$bus.$emit("detailImageLoad")//将监听的信息给detail
+      }
+      
     },
     goodsItemClick(){
       this.$router.push("/detail/"+this.goodsItem.iid)

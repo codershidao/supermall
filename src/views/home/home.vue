@@ -8,7 +8,7 @@
       class='tabcontrol' v-show="istabShow"/>
       
     <Scroll class="content" ref="scroll" 
-    :probetype='3' 
+    :probe-type='3' 
     @scroll='contentScroll' 
     :pullUpLoad='true' 
     @pullingUp='pullingUp' 
@@ -34,7 +34,6 @@ import Scroll from "components/common/scroll/Scroll"
 //导入公共业务组件
 import TabControl from "components/content/tabControl/tabControl"
 import goodsList from "components/content/goods/goodsList"
-import backTop from "components/content/backtop/backTop"
 
 //导入home子组件
 import homeSwiper from "./childComps/homeSwiper"
@@ -44,12 +43,12 @@ import featureView from "./childComps/featureView"
 //导入方法
 import { getHomeMultidata, getHomeGoods } from 'network/home'
 import {debounce} from 'common/utils'
+import {backTopMixin} from 'common/mixin'
 
 export default {
   name:"home",
   data(){
     return {
-      isShow:false,
       banner:[],
       recommend:[],
       goods:{
@@ -62,6 +61,7 @@ export default {
       tabosffsetTop:534
     }
   },
+  mixins:[backTopMixin],
   created(){
     //请求轮播数据和推荐数据
     this.getHomeMultidata()
@@ -79,7 +79,7 @@ export default {
     // })
     //但是这个函数调用的太频繁了,所以要使用防抖动函数
     const refresh = debounce(this.$refs.scroll.refresh,500)
-    this.$bus.$on('imageLoad',()=>{
+    this.$bus.$on('homeImageLoad',()=>{ 
       refresh()
     })
   },
@@ -124,15 +124,12 @@ export default {
       this.$refs.tabcontrol1.currentIndex=index;
       this.$refs.tabcontrol2.currentIndex=index
     },
-    backTop(){
-      this.$refs.scroll.scrollTo(0,0);//回到顶部
-    },
+   
     contentScroll(position){
     //判断backtop是否显示
-      this.isShow = (-position.y) >1000
+      this.isShow= (-position.y) >1000
     //判断tabcontrol是否吸顶
-    this.istabShow = (-position.y) > this.tabosffsetTop
-    
+    this.istabShow = (-position.y) > this.tabosffsetTop    
     }
   },
   computed:{
@@ -148,7 +145,6 @@ export default {
     TabControl,
     goodsList,
     Scroll,
-    backTop
   },
 }
 </script>
