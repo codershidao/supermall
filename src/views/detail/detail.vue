@@ -16,7 +16,7 @@
       <commentInfo ref="comment" :commentInfo='commentInfo'/>
       <goodsList ref="recommend" :goods='recommend'/>
     </scroll>
-    <bottom-bar></bottom-bar>
+    <bottom-bar @addToCart='addToCart'></bottom-bar>
     <backTop @click.native="backTop" v-show="isShow"></backTop>
   </div>
 </template>
@@ -90,17 +90,22 @@ export default {
       //获取推荐数据
       getRecommend().then(res=>{ 
         this.recommend = res.data.list;
-      })
-      //给getThemeTopy赋值,并对这个操作进行防抖
-      this.getThemeTopy = debounce(()=>{        
-        this.themeTopys = [];
-        this.themeTopys.push(0);
-        this.themeTopys.push(this.$refs.param.$el.offsetTop);//减去nav的44px高度
-        this.themeTopys.push(this.$refs.comment.$el.offsetTop);
-        this.themeTopys.push(this.$refs.recommend.$el.offsetTop);
-        this.themeTopys.push(Number.MAX_VALUE);//多加一个最大的值，方便判断
-      },500)
+      })    
   },  
+  updated(){
+  //给getThemeTopy赋值,并对这个操作进行防抖
+      this.getThemeTopy = debounce(()=>{      
+        // if(this.$refs.param && this.$refs.comment && $refs.recommend)  
+        // {
+          this.themeTopys = [];
+          this.themeTopys.push(0);
+          this.themeTopys.push(this.$refs.param.$el.offsetTop);//减去nav的44px高度
+          this.themeTopys.push(this.$refs.comment.$el.offsetTop);
+          this.themeTopys.push(this.$refs.recommend.$el.offsetTop);
+          this.themeTopys.push(Number.MAX_VALUE);//多加一个最大的值，方便判断
+       // }        
+      },500)
+  },
   mounted(){
     const refresh = debounce(this.$refs.scroll.refresh,500)
     this.$bus.$on('detailImageLoad',()=>{
@@ -108,10 +113,20 @@ export default {
     })
   },
   methods: {  
-    //监听滚动，并改变nav
+    //监听购物车
+    addToCart(){
+      const product={}
+      product.image = this.topImage[0];
+      product.title = this.goods.title;
+      product.desc = this.goods.desc;
+      product.price = this.goods.realPrice;
+      product.iid = this.iid;
+      this.$store.dispatch('addCart',product)
+    },
+    //监听滚动，并改变nav和topback
     contentScroll(position){
-      console.log(this.isShow);
-       this.isShow= (-position.y) >500
+      //当isShow为true时显示返回顶部的箭头
+      this.isShow= (-position.y) > 1000
 
       const positionY = -position.y;
       let length = this.themeTopys.length;

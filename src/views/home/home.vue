@@ -129,7 +129,7 @@ export default {
     //判断backtop是否显示
       this.isShow= (-position.y) >1000
     //判断tabcontrol是否吸顶
-    this.istabShow = (-position.y) > this.tabosffsetTop    
+    this.istabShow = (-position.y) > this.tabosffsetTop;
     }
   },
   computed:{
