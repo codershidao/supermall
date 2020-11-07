@@ -9,14 +9,14 @@
         <i class="icon shop"></i>
         <span class="text">店铺</span>
       </div>
-      <div>
+      <div @click='collect'>
         <i class="icon select"></i>
         <span class="text">收藏</span>
       </div>
     </div>
     <div class="bar-item bar-right">
       <div class="cart" @click="addToCart">加入购物车</div>
-      <div class="buy">购买</div>
+      <div class="buy" @click="buyshop">购买</div>
     </div>
   </div>
 </template>
@@ -27,8 +27,14 @@
     methods: {
       addToCart() {
         this.$emit('addToCart')
+      },
+      buyshop(){
+        this.$toast.show('购买成功')
+    },
+      collect(){
+        this.$toast.show('收藏成功')
       }
-    }
+    }   
 	}
 </script>
 

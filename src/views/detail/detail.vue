@@ -38,6 +38,7 @@ import bottomBar from './childComps/bottomBar'
 import {getDetailMultidata,Goods,Shop,GoodsParam,getRecommend} from 'network/detail'
 import {debounce} from 'common/utils'
 import {backTopMixin} from 'common/mixin'
+import { mapActions } from 'vuex'
 
 export default {
   name:"detail",
@@ -113,6 +114,9 @@ export default {
     })
   },
   methods: {  
+    ...mapActions([ //在组件中分发 Action
+      'addCart'
+    ]),
     //监听购物车
     addToCart(){
       const product={}
@@ -121,7 +125,9 @@ export default {
       product.desc = this.goods.desc;
       product.price = this.goods.realPrice;
       product.iid = this.iid;
-      this.$store.dispatch('addCart',product)
+      this.addCart(product).then(res => {
+        this.$toast.show(res);
+      })
     },
     //监听滚动，并改变nav和topback
     contentScroll(position){

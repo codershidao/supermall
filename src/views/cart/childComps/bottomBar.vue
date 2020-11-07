@@ -8,7 +8,7 @@
     <div class='price'>
       合计：{{totalPrice}}
     </div>
-    <div class="calculate">
+    <div class="calculate" @click='aclcClick'>
       结算({{checkLength}})
     </div>
   </div>
@@ -43,6 +43,13 @@ export default {
         this.$store.state.cartList.forEach(item => item.checked = false)
       }else{
          this.$store.state.cartList.forEach(item => item.checked = true)
+      }
+    },
+    aclcClick(){
+      if(!this.isSelectAll){
+        this.$toast.show('请选择要购买的商品')
+      }else{
+        this.$toast.show('购买成功')
       }
     }
   }
