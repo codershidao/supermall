@@ -52,7 +52,7 @@ export default {
 }
 .content{
   position: absolute;
-  top: 44px;
+  top: 33px;
   bottom: 89px;
   left: 0;
   right: 0;
