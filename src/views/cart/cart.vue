@@ -55,7 +55,8 @@ export default {
   top: 33px;
   bottom: 89px;
   left: 44;
-  right: 55;
+  bottom: 66px;
+  right: 57;
   overflow: hidden;
 }
 </style>
